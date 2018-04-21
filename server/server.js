@@ -9,6 +9,7 @@ const {User} = require('./models/user');
 let app = express();
 
 app.use(bodyParser.json());
+let port = process.env.PORT || 3000;
 
 app.post('/todos', (req, res) => {
     console.log(req.body);
@@ -59,7 +60,9 @@ app.get('/todos/:id', (req, res) => {
 
 });
 
-app.listen(3000);
+app.listen(port, () => {
+    console.log(`App strated on ${port}`);
+});
 
 module.exports = {app};
 
