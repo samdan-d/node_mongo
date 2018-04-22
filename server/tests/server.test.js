@@ -181,7 +181,7 @@ describe('DELETE /todos/:id', function () {
                 })
                 .end(done);
         });
-    })
+    });
 });
 
 
