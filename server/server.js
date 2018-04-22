@@ -12,7 +12,6 @@ app.use(bodyParser.json());
 let port = process.env.PORT || 3000;
 
 app.post('/todos', (req, res) => {
-    console.log(req.body);
     let todo = new Todo({
         text: req.body.text
     });
@@ -58,6 +57,31 @@ app.get('/todos/:id', (req, res) => {
         })
         .catch((e) => res.status(400).send());
 
+});
+
+app.delete('/todos/:id', (req, res) => {
+    // Get the ID
+    let  id = req.params.id;
+
+    // Validate the id -> not valid return 404
+    if(!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+
+    // Remove todo by id
+        // Success
+            // if no doc, send 404
+            // if doc, send doc back with 200
+        // Error
+            // 400 with empty body
+    Todo.findByIdAndRemove(id).then((todo) => {
+        if(!todo) {
+            return res.status(404).send();
+        }
+        return res.send(todo);
+    }).catch((e) => {
+        return res.status(400).send(e);
+    });
 });
 
 app.listen(port, () => {
